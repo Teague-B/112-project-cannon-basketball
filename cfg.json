@@ -1,0 +1,7 @@
+{
+    "appInitScene": "titleScreen",
+    "appAspectRatioWidth": 16,
+    "appAspectRatioHeight": 9,
+    "appInitWindowWidth": 1280,
+    "appInitWindowHeight": 720
+}
