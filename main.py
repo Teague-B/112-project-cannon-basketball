@@ -7,6 +7,8 @@ def onAppStart(app):
     app.jsonCfg = {}
     app.steps = 0
 
+    # FUCK
+
     with open('cfg.json', 'r') as jsonCfgFile:
         app.jsonCfg = load(jsonCfgFile)
 
