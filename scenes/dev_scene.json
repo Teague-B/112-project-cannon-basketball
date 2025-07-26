@@ -1,12 +1,13 @@
 {    
+    "sceneType": "generic",
     "objectList": [
         {
-            "type": "Rect",
+            "type": "Wall",
             "x": 0.5,
             "y": 0.9,
             "width": 1,
             "height": 0.1,
-            "gravity": false,
+            "rotation": 0,
             "fill": "lightGrey"
         },
         {

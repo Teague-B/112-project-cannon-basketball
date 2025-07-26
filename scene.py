@@ -1,5 +1,4 @@
 from json import load
-import drawing
 import sceneObjects
 
 def loadUnparsedData(id):
@@ -19,6 +18,9 @@ def loadFromID(id):
     }
 
     print(unparsedData)
+
+    # TODO: Actually parse the data into classes once
+    # the classes are written
 
     
 def drawSceneObjects(app):
