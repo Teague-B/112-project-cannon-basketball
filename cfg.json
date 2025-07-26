@@ -1,5 +1,5 @@
 {
-    "appInitScene": "titleScreen",
+    "appInitScene": "dev_scene",
     "appAspectRatioWidth": 16,
     "appAspectRatioHeight": 9,
     "appInitWindowWidth": 1280,

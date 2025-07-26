@@ -7,8 +7,6 @@ def onAppStart(app):
     app.jsonCfg = {}
     app.steps = 0
 
-    # FUCK
-
     with open('cfg.json', 'r') as jsonCfgFile:
         app.jsonCfg = load(jsonCfgFile)
 
@@ -18,13 +16,15 @@ def onAppStart(app):
     app.curScene = scene.loadFromID(app.jsonCfg['appInitScene'])
 
 def onStep(app):
-    pass
+    # write stuff here
+
+    app.steps += 1
 
 def redrawAll(app):
     # make sure window is completely black before drawing anything
     drawRect(0, 0, app.width, app.height, fill='black')
 
-    pass
+
 
 def main():
     runApp()

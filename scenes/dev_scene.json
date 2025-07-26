@@ -1,8 +1,16 @@
-[
-    {
-        "type": "Rect"
-    },
-    {
-        "type": "Circle"
-    }
-]
+{    
+    "objectList": [
+        {
+            "type": "Rect",
+            "x": 0.5,
+            "y": 0.9,
+            "width": 1,
+            "height": 0.1,
+            "gravity": false,
+            "fill": "lightGrey"
+        },
+        {
+            "type": "Circle"
+        }
+    ]
+}

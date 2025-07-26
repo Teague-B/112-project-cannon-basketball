@@ -1,3 +1,5 @@
+from cmu_graphics import *
+
 dLeft, dTop, dWidth, dHeight, dScale = 0, 0, 0, 0, 0
 
 def updateDrawVars(app):
@@ -29,3 +31,10 @@ def scaledRadius(r):
 
 def scaledDimensions(w, h):
     return width * dWidth, height * dHeight
+
+def drawScaledRect(x, y, h, w, fill=None):
+    drawRect(
+        *scaledCoords(x, y),
+        *scaledDimensions(h, w),
+        fill = fill
+        )
