@@ -1,5 +1,6 @@
 from json import load
 import drawing
+import sceneObjects
 
 def loadUnparsedData(id):
     unparsedData = {}
