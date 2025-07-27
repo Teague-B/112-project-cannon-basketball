@@ -3,14 +3,20 @@ from cmu_graphics import *
 def distance(x1, y1, x2, y2):
     return ((x1 - x2)**2 + (y1 - y2)**2)**0.5
 
-class Drawable:
+class BaseObject:
+    moveable = False
+    isGhost = False
+    isDrawable = True
     rotation = 0
     fill = [200, 200, 200]
 
     def draw(self, dScale, dLeft, dTop, dWidth, dHeight):
         pass
 
-class Circle(Drawable):
+    def updatePos(self):
+        pass
+
+class Circle(BaseObject):
     def __init__(self, x, y, r):
         self.x = x
         self.y = y
@@ -25,7 +31,7 @@ class Circle(Drawable):
             fill = self.fill
         )
 
-class Rectangle(Drawable):
+class Rectangle(BaseObject):
     def __init__(self, x, y, w, h):
         self.x = x
         self.y = y
@@ -41,8 +47,4 @@ class Rectangle(Drawable):
             rotateAngle = self.rotation,
             fill = self.fill
         )
-           
-
-class Wall(Rectangle, Drawable):
-    def __init__(self, x, y, w, h, rotate, fill):
-        super(x, y, w, h, rotate, fill)
+        

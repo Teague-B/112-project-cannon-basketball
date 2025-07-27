@@ -18,6 +18,7 @@ def onAppStart(app):
 def onStep(app):
     # write stuff here
 
+    app.curScene.doPhysics(app)
     app.steps += 1
 
 def redrawAll(app):

@@ -4,6 +4,9 @@ from json import load
 import sceneObjects
 
 class Scene:
+    # If anyone has a better idea for converting JSON to classes,
+    # please let me know bc I hate just about everything in this
+    # friggin function
     def __init__(self, id):
         data = {}
         with open("scenes/"+id+".json", 'r') as sceneFile:
@@ -30,9 +33,13 @@ class Scene:
             else:
                 assert False, f"Unknown object type: {obj['type']}"
             
-            if isinstance(self.objectList[-1], sceneObjects.Drawable):
-                self.objectList[-1].rotation = obj.get('rotation', sceneObjects.Drawable.rotation)
-                self.objectList[-1].fill = rgb(*tuple(obj.get('fill', sceneObjects.Drawable.fill)))
+            # Optional variables
+            # Whoever coded undertale would be proud
+            self.objectList[-1].rotation = obj.get('rotation', sceneObjects.BaseObject.rotation)
+            self.objectList[-1].fill = rgb(*tuple(obj.get('fill', sceneObjects.BaseObject.fill)))
+            self.objectList[-1].moveable = obj.get('moveable', sceneObjects.BaseObject.moveable)
+            self.objectList[-1].isGhost = obj.get('isGhost', sceneObjects.BaseObject.isGhost)
+            self.objectList[-1].isDrawable = obj.get('isDrawable', sceneObjects.BaseObject.isDrawable)
 
     def drawScene(self, app):
         # Calculate the scale constant
@@ -53,5 +60,8 @@ class Scene:
 
         # Draw drawable objects
         for obj in self.objectList:
-            if isinstance(obj, sceneObjects.Drawable):
+            if obj.isDrawable:
                 obj.draw(dScale, dLeft, dTop, dWidth, dHeight)
+
+    def doPhysics(self, app):
+        pass

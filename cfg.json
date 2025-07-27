@@ -3,5 +3,6 @@
     "appAspectRatioWidth": 16,
     "appAspectRatioHeight": 9,
     "appInitWindowWidth": 1280,
-    "appInitWindowHeight": 720
+    "appInitWindowHeight": 720,
+    "gravity": 0.1
 }
