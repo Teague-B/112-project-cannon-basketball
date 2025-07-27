@@ -13,7 +13,7 @@ def onAppStart(app):
     app.height = app.jsonCfg['appInitWindowHeight']
     app.width = app.jsonCfg['appInitWindowWidth']
 
-    app.curScene = scene.loadFromID(app.jsonCfg['appInitScene'])
+    app.curScene = scene.Scene(app.jsonCfg['appInitScene'])
 
 def onStep(app):
     # write stuff here
@@ -23,6 +23,8 @@ def onStep(app):
 def redrawAll(app):
     # make sure window is completely black before drawing anything
     drawRect(0, 0, app.width, app.height, fill='black')
+
+    app.curScene.drawScene(app)
 
 
 

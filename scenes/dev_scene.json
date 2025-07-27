@@ -2,16 +2,19 @@
     "sceneType": "generic",
     "objectList": [
         {
-            "type": "Wall",
-            "x": 0.5,
+            "type": "Rect",
+            "x": 0,
             "y": 0.9,
             "width": 1,
             "height": 0.1,
             "rotation": 0,
-            "fill": "lightGrey"
+            "fill": [137,81,41]
         },
         {
-            "type": "Circle"
+            "type": "Circle",
+            "x": 0.5,
+            "y": 0.25,
+            "r": 0.1
         }
     ]
 }
