@@ -12,6 +12,7 @@ def onAppStart(app):
 
     app.height = app.jsonCfg['appInitWindowHeight']
     app.width = app.jsonCfg['appInitWindowWidth']
+    app.stepsPerSecond = app.jsonCfg['stepsPerSecond']
 
     app.curScene = scene.Scene(app.jsonCfg['appInitScene'])
 

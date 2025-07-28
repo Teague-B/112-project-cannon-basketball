@@ -64,4 +64,11 @@ class Scene:
                 obj.draw(dScale, dLeft, dTop, dWidth, dHeight)
 
     def doPhysics(self, app):
-        pass
+        for obj in self.objectList:
+            if obj.moveable:
+                obj.vy -= app.jsonCfg['gravityForce']
+
+
+
+                obj.x += obj.vx / app.stepsPerSecond
+                obj.y -= obj.vy / app.stepsPerSecond

@@ -8,6 +8,8 @@ class BaseObject:
     isGhost = False
     isDrawable = True
     rotation = 0
+    vx = 0
+    vy = 0
     fill = [200, 200, 200]
 
     def draw(self, dScale, dLeft, dTop, dWidth, dHeight):
