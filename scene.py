@@ -40,6 +40,7 @@ class Scene:
             self.objectList[-1].moveable = obj.get('moveable', sceneObjects.BaseObject.moveable)
             self.objectList[-1].isGhost = obj.get('isGhost', sceneObjects.BaseObject.isGhost)
             self.objectList[-1].isDrawable = obj.get('isDrawable', sceneObjects.BaseObject.isDrawable)
+            self.objectList[-1].img = obj.get('img', sceneObjects.BaseObject.img)
 
     def drawScene(self, app):
         # Calculate the scale constant

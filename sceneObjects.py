@@ -11,6 +11,7 @@ class BaseObject:
     vx = 0
     vy = 0
     fill = [200, 200, 200]
+    img = None
 
     def draw(self, dScale, dLeft, dTop, dWidth, dHeight):
         pass
