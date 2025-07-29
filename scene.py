@@ -30,6 +30,11 @@ class Scene:
                     obj['y'],
                     obj['r']
                 ))
+            elif obj['type'] == "Cannon":
+                self.objectList.append(sceneObjects.Cannon(
+                    obj['x'],
+                    obj['y']
+                ))
             else:
                 assert False, f"Unknown object type: {obj['type']}"
             
@@ -43,26 +48,10 @@ class Scene:
             self.objectList[-1].img = obj.get('img', sceneObjects.BaseObject.img)
 
     def drawScene(self, app):
-        # Calculate the scale constant
-        dLeft, dTop, dWidth, dHeight, dScale = 0, 0, 0, 0, 0
-
-        hRatio = app.height / app.jsonCfg['appAspectRatioHeight']
-        wRatio = app.width / app.jsonCfg['appAspectRatioWidth']
-        scale = hRatio
-        if wRatio < hRatio:
-            scale = wRatio
-
-        dLeft = (app.width - scale * app.jsonCfg['appAspectRatioWidth']) / 2
-        dTop = (app.height - scale * app.jsonCfg['appAspectRatioHeight']) / 2
-        dWidth = app.left + scale * app.jsonCfg['appAspectRatioWidth']
-        dHeight = app.top + scale * app.jsonCfg['appAspectRatioHeight']
-
-        dScale = scale
-
         # Draw drawable objects
         for obj in self.objectList:
             if obj.isDrawable:
-                obj.draw(dScale, dLeft, dTop, dWidth, dHeight)
+                obj.draw()
 
     def doPhysics(self, app):
         for obj in self.objectList:
@@ -73,3 +62,8 @@ class Scene:
 
                 obj.x += obj.vx / app.stepsPerSecond
                 obj.y -= obj.vy / app.stepsPerSecond
+
+    def onMouseMove(self, x, y):
+        for obj in self.objectList:
+            if isinstance(obj, sceneObjects.Cannon):
+                obj.updateAngle(x, y)

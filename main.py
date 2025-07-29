@@ -16,19 +16,36 @@ def onAppStart(app):
 
     app.curScene = scene.Scene(app.jsonCfg['appInitScene'])
 
+    updateDrawVars(app)
+
+def updateDrawVars(app):
+    hRatio = app.height / app.jsonCfg['appAspectRatioHeight']
+    wRatio = app.width / app.jsonCfg['appAspectRatioWidth']
+    scale = hRatio
+    if wRatio < hRatio:
+        scale = wRatio
+
+    app.dLeft = (app.width - scale * app.jsonCfg['appAspectRatioWidth']) / 2
+    app.dTop = (app.height - scale * app.jsonCfg['appAspectRatioHeight']) / 2
+    app.dWidth = app.left + scale * app.jsonCfg['appAspectRatioWidth']
+    app.dHeight = app.top + scale * app.jsonCfg['appAspectRatioHeight']
+
+    app.dScale = scale
+
 def onStep(app):
-    # write stuff here
+    updateDrawVars(app)
 
     app.curScene.doPhysics(app)
     app.steps += 1
+
+def onMouseMove(app, x, y):
+    app.curScene.onMouseMove(x, y)
 
 def redrawAll(app):
     # make sure window is completely black before drawing anything
     drawRect(0, 0, app.width, app.height, fill='black')
 
     app.curScene.drawScene(app)
-
-
 
 def main():
     runApp()
