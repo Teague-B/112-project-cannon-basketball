@@ -41,6 +41,9 @@ def onStep(app):
 def onMouseMove(app, x, y):
     app.curScene.onMouseMove(x, y)
 
+def onMouseClick(app, x, y):
+    app.curScene.onMouseClick(x, y)
+
 def redrawAll(app):
     # make sure window is completely black before drawing anything
     drawRect(0, 0, app.width, app.height, fill='black')

@@ -68,9 +68,9 @@ class Cannon(BaseObject):
         drawLine(
             cx, 
             cy, 
-            cx + 2 * math.cos(self.angle) * app.dScale,
-            cy + 2 * math.sin(self.angle) * app.dScale,
-            fill = 'red',
+            cx + app.jsonCfg['cannon']['barrelLength'] * math.cos(self.angle) * app.dScale,
+            cy + app.jsonCfg['cannon']['barrelLength'] * math.sin(self.angle) * app.dScale,
+            fill = rgb(*tuple(app.jsonCfg['cannon']['barrelColor'])),
             lineWidth = 0.5 * app.dScale,
         )
         drawCircle(
@@ -83,13 +83,18 @@ class Cannon(BaseObject):
 
 
     def updateAngle(self, x, y):
-
         selfX, selfY = scaleCoords(self.x, self.y)
+
         # Law of cosines
+        # all of this crap through the print calls
+        # are to calculate the angle of the cannon
+        # properly with some additional rules
         c = distance(selfX, selfY, x, y)
         b = x - selfX
         a = y - selfY
 
+        # if the cursor is below the cannon stop
+        # the cannon from angling down
         if a > 0:
             a = 0
 
@@ -98,16 +103,16 @@ class Cannon(BaseObject):
         print(f"A: {a}, B: {b}, C: {c}")
         if rounded(b) == 0:
             print('h')
-            if a < 0:
-                cosA = math.radians(0)
-            else:
-                cosA = math.radians(0)
-        else:
+            cosA = math.radians(0)
+        elif c != 0:
             cosA = (b*b + c*c - a*a) / (2*b*c)
+            cosA = max(-1, min(1, cosA))
+            self.angle = math.radians(360) - math.acos(cosA)
+        else:
+            cosA = self.angle
                 
-        
-        cosA = max(-1, min(1, cosA))
         print(cosA)
-        angle = math.acos(cosA)
-        print("angle", math.degrees(angle))
-        self.angle = math.radians(360) - angle
+        print("angle", math.degrees(self.angle))
+
+    def fireBall(self, x, y):
+        pass

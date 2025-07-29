@@ -67,3 +67,8 @@ class Scene:
         for obj in self.objectList:
             if isinstance(obj, sceneObjects.Cannon):
                 obj.updateAngle(x, y)
+
+    def onMouseClick(self, x, y):
+        for obj in self.objectList:
+            if isinstance(obj, sceneObjects.Cannon):
+                obj.fireBall(x, y)

@@ -5,5 +5,10 @@
     "appInitWindowWidth": 1280,
     "appInitWindowHeight": 720,
     "gravityForce": 0.075,
-    "stepsPerSecond": 30
+    "stepsPerSecond": 30,
+    "cannon": {
+        "barrelLength": 2,
+        "barrelWidth": 0.5,
+        "barrelColor": [205, 28, 24]
+    }
 }
