@@ -5,12 +5,16 @@
     "appInitWindowWidth": 1280,
     "appInitWindowHeight": 720,
     "gravityForce": 0.075,
-    "stepsPerSecond": 30,
+    "stepsPerSecond": 60,
     "cannon": {
         "barrelLength": 2,
         "barrelWidth": 0.5,
         "barrelColor": [205, 28, 24],
         "scale": 0.75,
         "strength": 1.1
+    },
+    "basketball": {
+        "fill": [232, 97, 0],
+        "scale": 1
     }
 }

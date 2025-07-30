@@ -10,6 +10,9 @@ def scaleCoords(x, y):
 def unScaleCoords(x, y):
     return x / app.dWidth - app.dLeft, y / app.dHeight - app.dTop
 
+def convertToVector(x, y):
+    return (x**2 + y**2)**0.5
+
 
 class BaseObject:
     moveable = False
@@ -33,7 +36,7 @@ class Circle(BaseObject):
         self.y = y
         self.r = r
 
-    def draw(self): app.jsonCfg['cannon']['scale']
+    def draw(self):
         drawCircle(
             app.dLeft + self.x * app.dWidth,
             app.dTop + self.y * app.dHeight,
@@ -41,6 +44,19 @@ class Circle(BaseObject):
             rotateAngle = self.rotation,
             fill = rgb(*tuple(self.fill))
         )
+
+    def doCollision(self, other):
+        if isinstance(other, Circle):
+            sx, sy = scaleCoords(self.x, self.y)
+            ox, oy = scaleCoords(other.x, other.y)
+            dist = distance(sx, sy, ox, oy)
+            angle = 0 - math.atan2(sx - ox, sy - oy)
+            if dist < (self.r + other.r) * app.dScale:
+                print('boing', self != other)
+                c = convertToVector(self.vx, self.vy)
+                self.vx, self.vy = c * math.cos(angle), math.sin(angle)
+
+
 
 class Rectangle(BaseObject):
     def __init__(self, x, y, w, h):
@@ -131,5 +147,6 @@ class Cannon(BaseObject):
         c.vx = app.jsonCfg['cannon']['strength'] * math.cos(self.angle)
         c.vy = -app.jsonCfg['cannon']['strength'] * math.sin(self.angle)
         c.moveable = True
+        c.fill = app.jsonCfg['basketball']['fill']
         return c
         

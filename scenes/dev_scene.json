@@ -8,7 +8,8 @@
             "width": 1,
             "height": 0.1,
             "rotation": 0,
-            "fill": [137,81,41]
+            "fill": [137,81,41],
+            "isGhost": true
         },
         {
             "type": "Circle",

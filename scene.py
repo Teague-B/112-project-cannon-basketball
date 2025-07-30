@@ -62,12 +62,23 @@ class Scene:
                 i += 1
     
     def correctDrawOrder(self):
-        i = len(self.objectList)-1
-        L = self.objectList
-        while i > 0:
-            if isinstance(L[i-1], )
+        def f(x):
+            #print(x)
+            return isinstance(x, sceneObjects.Cannon)
+        self.objectList.sort(key=f)
+        #print(self.objectList)
+
+    def doCollisions(self):
+        for obj in self.objectList:
+            if not obj.isGhost:
+                for obj2 in self.objectList:
+                    if obj != obj2 and obj.isGhost == False:
+                        obj.doCollision(obj2)
+                        
+
 
     def doPhysics(self, app):
+        self.doCollisions()
         for obj in self.objectList:
             if obj.moveable:
                 obj.vy -= app.jsonCfg['gravityForce']
