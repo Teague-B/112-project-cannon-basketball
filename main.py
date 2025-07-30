@@ -35,13 +35,18 @@ def updateDrawVars(app):
 def onStep(app):
     updateDrawVars(app)
 
+    print(len(app.curScene.objectList))
     app.curScene.doPhysics(app)
+    app.curScene.clearOffscreen()
     app.steps += 1
 
 def onMouseMove(app, x, y):
     app.curScene.onMouseMove(x, y)
 
-def onMouseClick(app, x, y):
+def onMouseDrag(app, x, y):
+    app.curScene.onMouseMove(x, y)
+
+def onMousePress(app, x, y):
     app.curScene.onMouseClick(x, y)
 
 def redrawAll(app):

@@ -41,7 +41,7 @@ class Scene:
             # Optional variables
             # Whoever coded undertale would be proud
             self.objectList[-1].rotation = obj.get('rotation', sceneObjects.BaseObject.rotation)
-            self.objectList[-1].fill = rgb(*tuple(obj.get('fill', sceneObjects.BaseObject.fill)))
+            self.objectList[-1].fill = tuple(obj.get('fill', sceneObjects.BaseObject.fill))
             self.objectList[-1].moveable = obj.get('moveable', sceneObjects.BaseObject.moveable)
             self.objectList[-1].isGhost = obj.get('isGhost', sceneObjects.BaseObject.isGhost)
             self.objectList[-1].isDrawable = obj.get('isDrawable', sceneObjects.BaseObject.isDrawable)
@@ -52,6 +52,20 @@ class Scene:
         for obj in self.objectList:
             if obj.isDrawable:
                 obj.draw()
+
+    def clearOffscreen(self):
+        i = 0
+        while i < len(self.objectList):
+            if self.objectList[i].y > 1:
+                self.objectList.pop(i)
+            else:
+                i += 1
+    
+    def correctDrawOrder(self):
+        i = len(self.objectList)-1
+        L = self.objectList
+        while i > 0:
+            if isinstance(L[i-1], )
 
     def doPhysics(self, app):
         for obj in self.objectList:
@@ -71,4 +85,4 @@ class Scene:
     def onMouseClick(self, x, y):
         for obj in self.objectList:
             if isinstance(obj, sceneObjects.Cannon):
-                obj.fireBall(x, y)
+                self.objectList.append(obj.fireBall(x, y))

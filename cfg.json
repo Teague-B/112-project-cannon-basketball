@@ -9,6 +9,8 @@
     "cannon": {
         "barrelLength": 2,
         "barrelWidth": 0.5,
-        "barrelColor": [205, 28, 24]
+        "barrelColor": [205, 28, 24],
+        "scale": 0.75,
+        "strength": 1.1
     }
 }

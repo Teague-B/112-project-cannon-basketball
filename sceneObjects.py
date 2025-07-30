@@ -7,6 +7,9 @@ def distance(x1, y1, x2, y2):
 def scaleCoords(x, y):
     return app.dLeft + x * app.dWidth, app.dTop + y * app.dHeight
 
+def unScaleCoords(x, y):
+    return x / app.dWidth - app.dLeft, y / app.dHeight - app.dTop
+
 
 class BaseObject:
     moveable = False
@@ -30,13 +33,13 @@ class Circle(BaseObject):
         self.y = y
         self.r = r
 
-    def draw(self):
+    def draw(self): app.jsonCfg['cannon']['scale']
         drawCircle(
             app.dLeft + self.x * app.dWidth,
             app.dTop + self.y * app.dHeight,
             self.r * app.dScale,
             rotateAngle = self.rotation,
-            fill = self.fill
+            fill = rgb(*tuple(self.fill))
         )
 
 class Rectangle(BaseObject):
@@ -53,7 +56,7 @@ class Rectangle(BaseObject):
             self.w * app.dWidth, 
             self.h * app.dHeight,
             rotateAngle = self.rotation,
-            fill = self.fill
+            fill = rgb(*self.fill)
         )
         
 class Cannon(BaseObject):
@@ -63,22 +66,27 @@ class Cannon(BaseObject):
         self.x = x
         self.y = y
 
+    def getEndBarrelCoords(self):
+        cx, cy = app.dLeft + self.x * app.dWidth, app.dTop + self.y * app.dHeight
+        cannonCfg = app.jsonCfg['cannon']
+        barrelLen = cannonCfg['barrelLength'] * cannonCfg['scale']
+        return cx + barrelLen * math.cos(self.angle) * app.dScale, cy + barrelLen * math.sin(self.angle) * app.dScale
+
     def draw(self):
         cx, cy = app.dLeft + self.x * app.dWidth, app.dTop + self.y * app.dHeight
         drawLine(
             cx, 
             cy, 
-            cx + app.jsonCfg['cannon']['barrelLength'] * math.cos(self.angle) * app.dScale,
-            cy + app.jsonCfg['cannon']['barrelLength'] * math.sin(self.angle) * app.dScale,
+            *self.getEndBarrelCoords(),
             fill = rgb(*tuple(app.jsonCfg['cannon']['barrelColor'])),
-            lineWidth = 0.5 * app.dScale,
+            lineWidth = 0.5 * app.dScale * app.jsonCfg['cannon']['scale'],
         )
         drawCircle(
             cx,
             cy,
-            0.5 * app.dScale,
+            0.4 * app.dScale * app.jsonCfg['cannon']['scale'],
             rotateAngle = self.rotation,
-            fill = self.fill
+            fill = rgb(*self.fill)
         )
 
 
@@ -100,9 +108,9 @@ class Cannon(BaseObject):
 
         cosA = 0
 
-        print(f"A: {a}, B: {b}, C: {c}")
+        #print(f"A: {a}, B: {b}, C: {c}")
         if rounded(b) == 0:
-            print('h')
+            #print('h')
             cosA = math.radians(0)
         elif c != 0:
             cosA = (b*b + c*c - a*a) / (2*b*c)
@@ -111,8 +119,17 @@ class Cannon(BaseObject):
         else:
             cosA = self.angle
                 
-        print(cosA)
-        print("angle", math.degrees(self.angle))
+        #print(cosA)
+        #print("angle", math.degrees(self.angle))
 
     def fireBall(self, x, y):
-        pass
+        self.updateAngle(x, y)
+        c = Circle(
+                *unScaleCoords(*self.getEndBarrelCoords()),
+                app.jsonCfg['cannon']['barrelWidth'] * app.dScale / 200
+            )
+        c.vx = app.jsonCfg['cannon']['strength'] * math.cos(self.angle)
+        c.vy = -app.jsonCfg['cannon']['strength'] * math.sin(self.angle)
+        c.moveable = True
+        return c
+        
