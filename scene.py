@@ -75,6 +75,17 @@ class Scene:
         for obj in self.objectList:
             if obj.isDrawable:
                 obj.draw()
+        
+        if self.id == "end":
+            sum = 0
+            for key in app.timers:
+                if key != "intro":
+                    sum += app.timers[key]
+            mins = sum // app.stepsPerSecond
+            seconds = sum % app.stepsPerSecond
+            if seconds < 10:
+                seconds = "0" + str(seconds)
+            drawLabel(f"Total Time: {mins}.{str(seconds)} seconds!", 0.5 * app.dScale, 0.5 * app.dScale, bold=True, size=24)
 
     def clearOffscreen(self):
         i = 0

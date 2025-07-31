@@ -274,7 +274,10 @@ class Basketball(BaseObject):
             h = rectB.h * app.dHeight
             
             if rectContains(Rectangle(ax, ay, rectA.w, rectA.h), Rectangle(rectB.x + rectB.w / 16, rectB.y, rectB.w - rectB.w / 8, rectB.h)):
+                app.timers[app.curScene.id] = app.steps - app.numStepsAtLastChange
+                app.numStepsAtLastChange = app.steps
                 app.curScene = scene.Scene(rectB.nextScene)
+                print(app.timers)
 
         
             

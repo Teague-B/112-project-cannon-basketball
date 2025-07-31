@@ -4,8 +4,10 @@ from json import load
 import scene
 
 def onAppStart(app):
-    app.jsonCfg = {}
+    app.jsonCfg = dict()
     app.steps = 0
+    app.numStepsAtLastChange = 0
+    app.timers = dict()
 
     with open('cfg.json', 'r') as jsonCfgFile:
         app.jsonCfg = load(jsonCfgFile)
@@ -35,9 +37,10 @@ def updateDrawVars(app):
 def onKeyPress(app, key):
     if key == 'r' and app.curScene.id == 'end':
         app.curScene = scene.Scene(app.jsonCfg['appInitScene'])
+        app.steps = 0
+        app.timers = dict()
 
 def onStep(app):
-    print(app.curScene.id)
     updateDrawVars(app)
 
     #print(len(app.curScene.objectList))

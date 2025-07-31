@@ -22,6 +22,12 @@
             "type": "Label",
             "x": 0.5,
             "y": 0.3,
+            "text": "This is timed, so try to get a good high score!"
+        },
+        {
+            "type": "Label",
+            "x": 0.5,
+            "y": 0.35,
             "text": "Click to fire"
         },
         {
