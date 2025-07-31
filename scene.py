@@ -1,5 +1,6 @@
 from cmu_graphics import *
 from json import load
+from os import sep as pathSep
 
 import sceneObjects
 
@@ -9,7 +10,7 @@ class Scene:
     # friggin function
     def __init__(self, id):
         data = {}
-        with open("scenes/"+id+".json", 'r') as sceneFile:
+        with open("scenes"+pathSep+id+".json", 'r') as sceneFile:
             data = load(sceneFile)
         
         self.id = id
@@ -23,6 +24,12 @@ class Scene:
                     obj['y'],
                     obj['width'],
                     obj['height']
+                ))
+            elif obj['type'] == "Label":
+                self.objectList.append(sceneObjects.LabelText(
+                    obj['x'],
+                    obj['y'],
+                    obj['text']
                 ))
             elif obj['type'] == "Circle":
                 self.objectList.append(sceneObjects.Circle(
@@ -64,7 +71,7 @@ class Scene:
             self.objectList[-1].img = obj.get('img', sceneObjects.BaseObject.img)
 
     def drawScene(self, app):
-        drawImage("assets/"+app.jsonCfg['sprites']['background'], app.dTop, app.dLeft, height=app.dTop + app.dHeight, width=app.dLeft+app.dWidth)
+        drawImage(app.jsonCfg['sprites']['background'], app.dTop, app.dLeft, height=app.dTop + app.dHeight, width=app.dLeft+app.dWidth)
         # Draw drawable objects
         for obj in self.objectList:
             if obj.isDrawable:

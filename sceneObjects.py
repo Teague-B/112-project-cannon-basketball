@@ -1,6 +1,8 @@
 from cmu_graphics import *
 import math
 
+import scene
+
 def clamp(s, x, m):
     return max(m, min(m, x))
 
@@ -209,7 +211,7 @@ class Basketball(BaseObject):
     def doCollision(rectA, rectB):
         # Basketballs are drawn such as their x, y is their center
         # Jesus christ I hate this funcion, so many fucking hours
-        if isinstance(rectB, Cannon):
+        if isinstance(rectB, Cannon) or isinstance(rectB, LabelText):
             return
         ax, ay, aw, ah = rectA.x - rectA.w / 2, rectA.y - rectA.w / 2, rectA.w, rectA.h
         bx, by, bw, bh = rectB.x, rectB.y, rectB.w, rectB.h
@@ -245,7 +247,7 @@ class Basketball(BaseObject):
             h = rectB.h * app.dHeight
             
             if rectContains(Rectangle(ax, ay, rectA.w, rectA.h), Rectangle(rectB.x + rectB.w / 16, rectB.y, rectB.w - rectB.w / 8, rectB.h)):
-                print('lebron games')
+                app.curScene = scene.Scene(rectB.nextScene)
 
         
             
@@ -286,9 +288,8 @@ class Cannon(BaseObject):
         selfX, selfY = scaleCoords(self.x, self.y)
 
         # Law of cosines
-        # all of this crap through the print calls
-        # are to calculate the angle of the cannon
-        # properly with some additional rules
+        # all of this crap is meant to properly
+        # calculate the angle of the cannon
         c = distance(selfX, selfY, x, y)
         b = x - selfX
         a = y - selfY
@@ -324,4 +325,13 @@ class Cannon(BaseObject):
         c.moveable = True
         c.fill = app.jsonCfg['basketball']['fill']
         return c
+
+class LabelText(BaseObject):
+    def __init__(self, x, y, txt):
+        self.x = x
+        self.y = y
+        self.txt = txt
+
+    def draw(self):
+        drawLabel(self.txt, *scaleCoords(self.x, self.y), bold=True, size=24)
         

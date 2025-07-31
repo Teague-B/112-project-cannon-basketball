@@ -1,5 +1,5 @@
 {
-    "appInitScene": "dev_scene",
+    "appInitScene": "intro",
     "appAspectRatioWidth": 1,
     "appAspectRatioHeight": 1,
     "appInitWindowWidth": 720,
@@ -19,7 +19,6 @@
         "border": [0, 0, 0]
     },
     "sprites": {
-        "basketball": "basketball2.png",
         "background": "background.jpg"
     }
 }
