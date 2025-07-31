@@ -1,16 +1,16 @@
 {
     "appInitScene": "dev_scene",
-    "appAspectRatioWidth": 16,
-    "appAspectRatioHeight": 9,
-    "appInitWindowWidth": 1280,
+    "appAspectRatioWidth": 1,
+    "appAspectRatioHeight": 1,
+    "appInitWindowWidth": 720,
     "appInitWindowHeight": 720,
-    "gravityForce": 0.075,
+    "gravityForce": 4.5,
     "stepsPerSecond": 60,
     "cannon": {
         "barrelLength": 2,
         "barrelWidth": 0.5,
         "barrelColor": [205, 28, 24],
-        "scale": 0.75,
+        "scale": 0.07,
         "strength": 1.1
     },
     "basketball": {
@@ -18,6 +18,7 @@
         "scale": 1
     },
     "sprites": {
-        "basketball": "basketball2.png"
+        "basketball": "basketball2.png",
+        "background": "background.jpg"
     }
 }

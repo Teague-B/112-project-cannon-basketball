@@ -48,6 +48,7 @@ class Scene:
             self.objectList[-1].img = obj.get('img', sceneObjects.BaseObject.img)
 
     def drawScene(self, app):
+        drawImage("assets/"+app.jsonCfg['sprites']['background'], app.dTop, app.dLeft, height=app.dTop + app.dHeight, width=app.dLeft+app.dWidth)
         # Draw drawable objects
         for obj in self.objectList:
             if obj.isDrawable:
@@ -56,7 +57,7 @@ class Scene:
     def clearOffscreen(self):
         i = 0
         while i < len(self.objectList):
-            if self.objectList[i].y > 1:
+            if self.objectList[i].y > 1.1 or self.objectList[i].x < -0.1 or self.objectList[i].x > 1.1:
                 self.objectList.pop(i)
             else:
                 i += 1
@@ -70,19 +71,23 @@ class Scene:
 
     def doCollisions(self):
         for obj in self.objectList:
-            if not obj.isGhost:
+            if not obj.isGhost and isinstance(obj, sceneObjects.Circle):
                 for obj2 in self.objectList:
                     if obj != obj2 and obj.isGhost == False:
                         obj.doCollision(obj2)
                         
     def doPhysics(self, app):
-        self.doCollisions()
         for obj in self.objectList:
             if obj.moveable:
-                obj.vy -= app.jsonCfg['gravityForce']
+                obj.vy -= app.jsonCfg['gravityForce'] / app.stepsPerSecond
 
+        self.doCollisions()
+
+        for obj in self.objectList:
+            if obj.moveable:
                 obj.x += obj.vx / app.stepsPerSecond
                 obj.y -= obj.vy / app.stepsPerSecond
+
 
     def onMouseMove(self, x, y):
         for obj in self.objectList:

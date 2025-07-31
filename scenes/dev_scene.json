@@ -9,27 +9,33 @@
             "height": 0.1,
             "rotation": 0,
             "fill": [137,81,41],
-            "isGhost": true
+            "isGhost": false
         },
         {
-            "type": "Circle",
+            "type": "Cannon",
             "x": 0.5,
+            "y": 0.75,
+            "isGhost": true
+        },
+        {
+            "type": "Rect",
+            "x": 0.1,
             "y": 0.25,
-            "r": 0.1,
-            "moveable": true,
-            "img": "basketball"
+            "width": 0.1,
+            "height": 0.5,
+            "rotation": 0,
+            "fill": [137,81,41],
+            "isGhost": false
         },
         {
-            "type": "Cannon",
-            "x": 0.2,
-            "y": 0.75,
-            "isGhost": true
-        },
-        {
-            "type": "Cannon",
+            "type": "Rect",
             "x": 0.8,
-            "y": 0.75,
-            "isGhost": true
+            "y": 0.25,
+            "width": 0.1,
+            "height": 0.5,
+            "rotation": 0,
+            "fill": [137,81,41],
+            "isGhost": false
         }
     ]
 }

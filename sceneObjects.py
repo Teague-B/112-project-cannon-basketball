@@ -1,6 +1,9 @@
 from cmu_graphics import *
 import math
 
+def clamp(s, x, m):
+    return max(m, min(m, x))
+
 def distance(x1, y1, x2, y2):
     return ((x1 - x2)**2 + (y1 - y2)**2)**0.5
 
@@ -52,12 +55,37 @@ class Circle(BaseObject):
             dist = distance(sx, sy, ox, oy)
             angle = 0 - math.atan2(sx - ox, sy - oy)
             if dist < (self.r + other.r) * app.dScale:
-                print('boing', self != other)
+                #print('boing', self != other)
                 c = convertToVector(self.vx, self.vy)
                 self.vx, self.vy = c * math.cos(angle), math.sin(angle)
-        elif isinstance
 
+        elif isinstance(other, Rectangle):
+            cx, cy, cr, vx, vy = *scaleCoords(self.x, self.y), self.r * app.dScale, self.vx, self.vy
+            rx, ry, w, h, angle = *scaleCoords(other.x, other.y), other.w * app.dWidth, other.h * app.dHeight, other.rotation
 
+            dx = cx - rx
+            dy = cy - ry
+
+            if dx <= w/2 or dy <= h/2 or (dx - w/2)**2 + (dy - h/2)**2 <= cr**2:
+                #print(cy + cr, ry)
+                if cy + cr > ry:
+                    #print('f')
+                    tcx, tcy = unScaleCoords(cx, cy)
+                    tcx -= self.vx / app.stepsPerSecond
+                    tcy += self.vy / app.stepsPerSecond
+                    self.vy = -self.vy
+                    self.cx, self.cy = tcx, tcy
+                elif cx + cr > rx:
+                    tcx, tcy = unScaleCoords(cx, cy)
+                    tcx -= self.vx / app.stepsPerSecond
+                    tcy += self.vy / app.stepsPerSecond
+                    self.vx = -self.vx
+                    self.cx, self.cy = tcx, tcy
+                elif cx - cr < rx + w:
+                    pass
+                elif True:
+                    pass
+    
 
 class Rectangle(BaseObject):
     def __init__(self, x, y, w, h):
@@ -74,6 +102,24 @@ class Rectangle(BaseObject):
             self.h * app.dHeight,
             rotateAngle = self.rotation,
             fill = rgb(*self.fill)
+        )
+
+def BasketBall(BaseObject):
+    def __init__(self, x, y, w, h):
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+    
+    def draw(self):
+        drawRect(
+            app.dLeft + self.x * app.dWidth,
+            app.dTop + self.y * app.dHeight,
+            self.w * app.dWidth, 
+            self.h * app.dHeight,
+            rotateAngle = self.rotation,
+            fill = rgb(*self.fill),
+            align = 'center'
         )
         
 class Cannon(BaseObject):
@@ -141,10 +187,9 @@ class Cannon(BaseObject):
 
     def fireBall(self, x, y):
         self.updateAngle(x, y)
-        c = Circle(
-                *unScaleCoords(*self.getEndBarrelCoords()),
-                app.jsonCfg['cannon']['barrelWidth'] * app.dScale / 200
-            )
+        tx, ty = unScaleCoords(*self.getEndBarrelCoords())
+        print(tx, ty)
+        c = BasketBall(tx, ty, app.jsonCfg['cannon']['barrelWidth'] / 12, app.jsonCfg['cannon']['barrelWidth'] / 12)
         c.vx = app.jsonCfg['cannon']['strength'] * math.cos(self.angle)
         c.vy = -app.jsonCfg['cannon']['strength'] * math.sin(self.angle)
         c.moveable = True
