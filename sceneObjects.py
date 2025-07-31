@@ -43,29 +43,6 @@ class BaseObject:
     def draw(self):
         pass
 
-    def updatePos(self):
-        pass
-
-'''
-class Circle(BaseObject):
-    def __init__(self, x, y, r):
-        self.x = x
-        self.y = y
-        self.r = r
-
-    def draw(self):
-        drawCircle(
-            app.dLeft + self.x * app.dWidth,
-            app.dTop + self.y * app.dHeight,
-            self.r * app.dScale,
-            rotateAngle = self.rotation,
-            fill = rgb(*tuple(self.fill))
-        )
-
-    def doCollision(self, other):
-        pass
-'''
-
 class Rectangle(BaseObject):
     def __init__(self, x, y, w, h):
         self.x = x
@@ -223,6 +200,7 @@ class Basketball(BaseObject):
             return
         # Basketballs are drawn such as their x, y is their center
         # Jesus christ I hate this funcion, so many fucking hours
+        # and random bullcrap but it pretty much works so that's smth
         if isinstance(rectB, Cannon) or isinstance(rectB, LabelText):
             return
         ax, ay, aw, ah = rectA.x - rectA.w / 2, rectA.y - rectA.w / 2, rectA.w, rectA.h
@@ -244,9 +222,8 @@ class Basketball(BaseObject):
                 elif rectB.direction == "right":
                     rectA.vx = abs(rectA.vx)
         
-        if isinstance(rectB, Basketball) or isinstance(rectB, Rectangle):
+        elif isinstance(rectB, Basketball) or isinstance(rectB, Rectangle):
             if pointIsIn(ax, ay, bx, by, br, bb) or pointIsIn(ar, ay, bx, by, br, bb) or pointIsIn(ax, ab, bx, by, br, bb) or pointIsIn(ar, ab, bx, by, br, bb):
-                #print('boing', rectA, rectB)
                 
                 dxLeft = (rectA.x + rectA.w / 2) - rectB.x               
                 dxRight = (rectB.x + rectB.w) - (rectA.x - rectA.w / 2)  
@@ -258,17 +235,13 @@ class Basketball(BaseObject):
 
 
                 if abs(absPenX) < abs(absPenY):
-                    #print("x", rectA, rectB)
                     rectA.x -= absPenX
                     rectA.vx = -rectA.vx
                 else:
-                    #print("y", rectA, rectB)
                     if rectA.vy > 0:
                         rectA.y -= absPenY
                         rectA.vy = -rectA.vy
                 
-                
-
         elif isinstance(rectB, Hoop):
             x = app.dLeft + rectB.x * app.dWidth + rectB.w * app.dWidth / 16
             y = app.dTop + rectB.y * app.dHeight
@@ -333,9 +306,7 @@ class Cannon(BaseObject):
 
         cosA = 0
 
-        #print(f"A: {a}, B: {b}, C: {c}")
         if rounded(b) == 0:
-            #print('h')
             cosA = math.radians(0)
         elif c != 0:
             cosA = (b*b + c*c - a*a) / (2*b*c)
@@ -343,14 +314,10 @@ class Cannon(BaseObject):
             self.angle = math.radians(360) - math.acos(cosA)
         else:
             cosA = self.angle
-                
-        #print(cosA)
-        #print("angle", math.degrees(self.angle))
 
     def fireBall(self, x, y):
         self.updateAngle(x, y)
         tx, ty = unScaleCoords(*self.getEndBarrelCoords())
-        #print(tx, ty)
         c = Basketball(tx, ty, app.jsonCfg['cannon']['barrelWidth'] / 12, app.jsonCfg['cannon']['barrelWidth'] / 12)
         c.vx = app.jsonCfg['cannon']['strength'] * math.cos(self.angle)
         c.vy = -app.jsonCfg['cannon']['strength'] * math.sin(self.angle)

@@ -43,7 +43,6 @@ def onKeyPress(app, key):
 def onStep(app):
     updateDrawVars(app)
 
-    #print(len(app.curScene.objectList))
     app.curScene.doPhysics(app)
     app.curScene.clearOffscreen()
     app.steps += 1

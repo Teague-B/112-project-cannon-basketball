@@ -4,7 +4,6 @@
     "appAspectRatioHeight": 1,
     "appInitWindowWidth": 720,
     "appInitWindowHeight": 720,
-    "gravityForce": 0,
     "stepsPerSecond": 120,
     "cannon": {
         "barrelLength": 2,

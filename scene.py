@@ -97,10 +97,8 @@ class Scene:
     
     def correctDrawOrder(self):
         def f(x):
-            #print(x)
             return isinstance(x, sceneObjects.Cannon)
         self.objectList.sort(key=f)
-        #print(self.objectList)
 
     def doCollisions(self):
         for obj in self.objectList:
@@ -110,10 +108,6 @@ class Scene:
                         obj.doCollision(obj2)
                         
     def doPhysics(self, app):
-        for obj in self.objectList:
-            if obj.moveable:
-                obj.vy -= app.jsonCfg['gravityForce'] / app.stepsPerSecond
-
         self.doCollisions()
 
         for obj in self.objectList:
