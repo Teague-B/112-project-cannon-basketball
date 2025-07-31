@@ -55,6 +55,7 @@ class Circle(BaseObject):
                 print('boing', self != other)
                 c = convertToVector(self.vx, self.vy)
                 self.vx, self.vy = c * math.cos(angle), math.sin(angle)
+        elif isinstance
 
 
 

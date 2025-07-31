@@ -75,15 +75,11 @@ class Scene:
                     if obj != obj2 and obj.isGhost == False:
                         obj.doCollision(obj2)
                         
-
-
     def doPhysics(self, app):
         self.doCollisions()
         for obj in self.objectList:
             if obj.moveable:
                 obj.vy -= app.jsonCfg['gravityForce']
-
-
 
                 obj.x += obj.vx / app.stepsPerSecond
                 obj.y -= obj.vy / app.stepsPerSecond

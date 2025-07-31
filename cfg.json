@@ -16,5 +16,8 @@
     "basketball": {
         "fill": [232, 97, 0],
         "scale": 1
+    },
+    "sprites": {
+        "basketball": "basketball2.png"
     }
 }
