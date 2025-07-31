@@ -63,42 +63,7 @@ class Circle(BaseObject):
         )
 
     def doCollision(self, other):
-        if isinstance(other, Circle):
-            sx, sy = scaleCoords(self.x, self.y)
-            ox, oy = scaleCoords(other.x, other.y)
-            dist = distance(sx, sy, ox, oy)
-            angle = 0 - math.atan2(sx - ox, sy - oy)
-            if dist < (self.r + other.r) * app.dScale:
-                #print('boing', self != other)
-                c = convertToVector(self.vx, self.vy)
-                self.vx, self.vy = c * math.cos(angle), math.sin(angle)
-
-        elif isinstance(other, Rectangle):
-            cx, cy, cr, vx, vy = *scaleCoords(self.x, self.y), self.r * app.dScale, self.vx, self.vy
-            rx, ry, w, h, angle = *scaleCoords(other.x, other.y), other.w * app.dWidth, other.h * app.dHeight, other.rotation
-
-            dx = cx - rx
-            dy = cy - ry
-
-            if dx <= w/2 or dy <= h/2 or (dx - w/2)**2 + (dy - h/2)**2 <= cr**2:
-                #print(cy + cr, ry)
-                if cy + cr > ry:
-                    #print('f')
-                    tcx, tcy = unScaleCoords(cx, cy)
-                    tcx -= self.vx / app.stepsPerSecond
-                    tcy += self.vy / app.stepsPerSecond
-                    self.vy = -self.vy
-                    self.cx, self.cy = tcx, tcy
-                elif cx + cr > rx:
-                    tcx, tcy = unScaleCoords(cx, cy)
-                    tcx -= self.vx / app.stepsPerSecond
-                    tcy += self.vy / app.stepsPerSecond
-                    self.vx = -self.vx
-                    self.cx, self.cy = tcx, tcy
-                elif cx - cr < rx + w:
-                    pass
-                elif True:
-                    pass
+        pass
 
 class Rectangle(BaseObject):
     def __init__(self, x, y, w, h):
@@ -127,7 +92,23 @@ class WindBox(BaseObject):
         self.direction = d
 
     def draw(self):
-        pass
+        drawRect(
+            self.x * app.dWidth,
+            self.y * app.dHeight,
+            self.w * app.dWidth,
+            self.h * app.dHeight,
+            opacity = 50,
+            fill=rgb(255, 255, 255)
+        )
+        if self.direction == 'up':
+            drawLine(
+                self.x * app.dWidth + self.w * app.dWidth / 2,
+                self.y * app.dHeight + self.h * app.dHeight - self.h * app.dHeight / 8,
+                self.x * app.dWidth + self.w * app.dWidth / 2,
+                self.y * app.dHeight + self.h * app.dHeight / 8,
+                fill = rgb(255, 255, 255),
+                arrowEnd=True
+            )
 
 class Hoop(BaseObject):
     def __init__(self, x, y, w, h, ns):
@@ -221,9 +202,15 @@ class Basketball(BaseObject):
         ab = ax + ah
         br = bx + bw
         bb = by + bh
+        if isinstance(rectB, WindBox):
+            if pointIsIn(rectA.x, rectA.y, rectB.x, rectB.y, rectB.x + rectB.w, rectB.y + rectB.h):
+                if rectB.direction == "up":
+                    rectA.vy = abs(rectA.vy)
+        
         if isinstance(rectB, Basketball) or isinstance(rectB, Rectangle):
             if pointIsIn(ax, ay, bx, by, br, bb) or pointIsIn(ar, ay, bx, by, br, bb) or pointIsIn(ax, ab, bx, by, br, bb) or pointIsIn(ar, ab, bx, by, br, bb):
                 #print('boing', rectA, rectB)
+                
                 dxLeft = (rectA.x + rectA.w / 2) - rectB.x               
                 dxRight = (rectB.x + rectB.w) - (rectA.x - rectA.w / 2)  
                 dyTop = (rectA.y + rectA.h / 2) - rectB.y               
@@ -234,12 +221,17 @@ class Basketball(BaseObject):
 
 
                 if abs(absPenX) < abs(absPenY):
+                    print("x", rectA, rectB)
                     rectA.x -= absPenX
                     rectA.vx = -rectA.vx
                 else:
+                    print("y", rectA, rectB)
                     if rectA.vy > 0:
                         rectA.y -= absPenY
                         rectA.vy = -rectA.vy
+                
+                
+
         elif isinstance(rectB, Hoop):
             x = app.dLeft + rectB.x * app.dWidth + rectB.w * app.dWidth / 16
             y = app.dTop + rectB.y * app.dHeight

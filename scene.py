@@ -14,7 +14,6 @@ class Scene:
             data = load(sceneFile)
         
         self.id = id
-        self.sceneType = data['sceneType']
         self.objectList = []
 
         for obj in data['objectList']:
@@ -54,8 +53,8 @@ class Scene:
                 self.objectList.append(sceneObjects.WindBox(
                     obj['x'],
                     obj['y'],
-                    obj['w'],
-                    obj['h'],
+                    obj['width'],
+                    obj['height'],
                     obj['direction']
                 ))
             else:

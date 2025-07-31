@@ -1,0 +1,50 @@
+{
+    "objectList": [
+        {
+            "type": "Cannon",
+            "x": 0.2,
+            "y": 0.9,
+            "isGhost": true
+        },
+        {
+            "type": "Rect",
+            "x": 0,
+            "y": 0,
+            "width": 0.1,
+            "height": 1,
+            "fill": [137,81,41]
+        },
+        {
+            "type": "Rect",
+            "x": 0.1,
+            "y": 0,
+            "width": 0.9,
+            "height": 0.1,
+            "fill": [137,81,41]
+        },
+        {
+            "type": "Rect",
+            "x": 0.35,
+            "y": 0.4,
+            "width": 0.05,
+            "height": 0.6,
+            "fill": [137,81,41]
+        },
+        {
+            "type": "WindBox",
+            "x": 0.45,
+            "y": 0.9,
+            "width": 0.5,
+            "height": 0.05,
+            "direction": "up"
+        },
+        {
+            "type": "Hoop",
+            "x": 0.85,
+            "y": 0.45,
+            "h": 0.1,
+            "w": 0.1,
+            "nextScene": "intro"
+        }
+    ]
+}
