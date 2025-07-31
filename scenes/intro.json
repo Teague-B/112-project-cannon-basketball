@@ -7,6 +7,15 @@
             "isGhost": true
         },
         {
+            "type": "Rect",
+            "x": 0.0,
+            "y": 0.17,
+            "width": 1,
+            "height": 0.2,
+            "fill": [232, 97, 0],
+            "isGhost": true
+        },
+        {
             "type": "Label",
             "x": 0.5,
             "y": 0.2,
@@ -28,7 +37,7 @@
             "type": "Label",
             "x": 0.5,
             "y": 0.35,
-            "text": "Click to fire"
+            "text": "Click to fire."
         },
         {
             "type": "Hoop",

@@ -219,6 +219,8 @@ class Basketball(BaseObject):
         )
 
     def doCollision(rectA, rectB):
+        if rectB.isGhost:
+            return
         # Basketballs are drawn such as their x, y is their center
         # Jesus christ I hate this funcion, so many fucking hours
         if isinstance(rectB, Cannon) or isinstance(rectB, LabelText):

@@ -62,12 +62,10 @@ class Scene:
             
             # Optional variables
             # Whoever coded undertale would be proud
-            self.objectList[-1].rotation = obj.get('rotation', sceneObjects.BaseObject.rotation)
             self.objectList[-1].fill = tuple(obj.get('fill', sceneObjects.BaseObject.fill))
             self.objectList[-1].moveable = obj.get('moveable', sceneObjects.BaseObject.moveable)
             self.objectList[-1].isGhost = obj.get('isGhost', sceneObjects.BaseObject.isGhost)
             self.objectList[-1].isDrawable = obj.get('isDrawable', sceneObjects.BaseObject.isDrawable)
-            self.objectList[-1].img = obj.get('img', sceneObjects.BaseObject.img)
 
     def drawScene(self, app):
         drawImage(app.jsonCfg['sprites']['background'], app.dTop, app.dLeft, height=app.dTop + app.dHeight, width=app.dLeft+app.dWidth)
@@ -85,7 +83,9 @@ class Scene:
             seconds = sum % app.stepsPerSecond
             if seconds < 10:
                 seconds = "0" + str(seconds)
+            # Unfortunately I can't include this in the json files bc I need to use f strings to display the variables
             drawLabel(f"Total Time: {mins}.{str(seconds)} seconds!", 0.5 * app.dScale, 0.5 * app.dScale, bold=True, size=24)
+
 
     def clearOffscreen(self):
         i = 0
