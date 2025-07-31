@@ -13,6 +13,18 @@ def scaleCoords(x, y):
 def unScaleCoords(x, y):
     return x / app.dWidth - app.dLeft, y / app.dHeight - app.dTop
 
+def pointIsIn(x, y, l, t, r, b):
+    #print(x, y, l, t, r, b)
+    return (l < x < r) and (t < y < b)
+
+def rectContains(inner, outer):
+    return (
+        outer.x <= inner.x and
+        outer.y <= inner.y and
+        inner.x + inner.w <= outer.x + outer.w and
+        inner.y + inner.h <= outer.y + outer.h
+    )
+
 def convertToVector(x, y):
     return (x**2 + y**2)**0.5
 
@@ -85,7 +97,6 @@ class Circle(BaseObject):
                     pass
                 elif True:
                     pass
-    
 
 class Rectangle(BaseObject):
     def __init__(self, x, y, w, h):
@@ -101,10 +112,50 @@ class Rectangle(BaseObject):
             self.w * app.dWidth, 
             self.h * app.dHeight,
             rotateAngle = self.rotation,
-            fill = rgb(*self.fill)
+            fill = rgb(*self.fill),
+            border = 'black'
         )
 
-def BasketBall(BaseObject):
+class WindBox(BaseObject):
+    def __init__(self, x, y, w, h, d):
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+        self.direction = d
+
+    def draw(self):
+        pass
+
+class Hoop(BaseObject):
+    def __init__(self, x, y, w, h, ns):
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+        self.nextScene = ns
+    
+    def draw(self):
+        # net
+        drawRect(
+            app.dLeft + self.x * app.dWidth + self.w * app.dWidth / 16,
+            app.dTop + self.y * app.dHeight,
+            self.w * app.dWidth - self.w * app.dWidth / 8, 
+            self.h * app.dHeight,
+            fill = 'grey',
+            border = 'black'
+        )
+        # hoop
+        drawRect(
+            app.dLeft + self.x * app.dWidth,
+            app.dTop + self.y * app.dHeight,
+            self.w * app.dWidth, 
+            self.h * app.dHeight / 8,
+            fill = 'red',
+            border = 'black'
+        )
+
+class Basketball(BaseObject):
     def __init__(self, x, y, w, h):
         self.x = x
         self.y = y
@@ -119,8 +170,85 @@ def BasketBall(BaseObject):
             self.h * app.dHeight,
             rotateAngle = self.rotation,
             fill = rgb(*self.fill),
-            align = 'center'
+            align = 'center',
+            border = rgb(*tuple(app.jsonCfg['basketball']['border']))
         )
+        drawLine(
+            app.dLeft + self.x * app.dWidth,
+            app.dTop + self.y * app.dHeight - self.w * app.dScale / 2,
+            app.dLeft + self.x * app.dWidth,
+            app.dTop + self.y * app.dHeight + self.w * app.dScale / 2,
+            fill = 'black',
+            lineWidth = 2
+        )
+        drawLine(
+            app.dLeft + self.x * app.dWidth - self.w * app.dScale / 2,
+            app.dTop + self.y * app.dHeight,
+            app.dLeft + self.x * app.dWidth + self.w * app.dScale / 2,
+            app.dTop + self.y * app.dHeight,
+            fill = 'black',
+            lineWidth = 2
+        )
+        drawLine(
+            app.dLeft + self.x * app.dWidth - self.w * app.dScale / 2,
+            app.dTop + self.y * app.dHeight - self.w * app.dScale / 4,
+            app.dLeft + self.x * app.dWidth + self.w * app.dScale / 2,
+            app.dTop + self.y * app.dHeight + self.w * app.dScale / 4,
+            fill = 'black',
+            lineWidth = 2
+        )
+        drawLine(
+            app.dLeft + self.x * app.dWidth - self.w * app.dScale / 2,
+            app.dTop + self.y * app.dHeight + self.w * app.dScale / 4,
+            app.dLeft + self.x * app.dWidth + self.w * app.dScale / 2,
+            app.dTop + self.y * app.dHeight - self.w * app.dScale / 4,
+            fill = 'black',
+            lineWidth = 2
+        )
+
+    def doCollision(rectA, rectB):
+        # Basketballs are drawn such as their x, y is their center
+        # Jesus christ I hate this funcion, so many fucking hours
+        if isinstance(rectB, Cannon):
+            return
+        ax, ay, aw, ah = rectA.x - rectA.w / 2, rectA.y - rectA.w / 2, rectA.w, rectA.h
+        bx, by, bw, bh = rectB.x, rectB.y, rectB.w, rectB.h
+        if isinstance(rectB, Basketball):
+            bx, by = rectB.x - rectB.w / 2, rectB.y - rectA.w / 2
+        ar = ax + aw
+        ab = ax + ah
+        br = bx + bw
+        bb = by + bh
+        if isinstance(rectB, Basketball) or isinstance(rectB, Rectangle):
+            if pointIsIn(ax, ay, bx, by, br, bb) or pointIsIn(ar, ay, bx, by, br, bb) or pointIsIn(ax, ab, bx, by, br, bb) or pointIsIn(ar, ab, bx, by, br, bb):
+                #print('boing', rectA, rectB)
+                dxLeft = (rectA.x + rectA.w / 2) - rectB.x               
+                dxRight = (rectB.x + rectB.w) - (rectA.x - rectA.w / 2)  
+                dyTop = (rectA.y + rectA.h / 2) - rectB.y               
+                dyBottom = (rectB.y + rectB.h) - (rectA.y - rectA.h / 2)
+
+                absPenX = dxLeft if abs(dxLeft) < abs(dxRight) else -dxRight
+                absPenY = dyTop if abs(dyTop) < abs(dyBottom) else -dyBottom
+
+
+                if abs(absPenX) < abs(absPenY):
+                    rectA.x -= absPenX
+                    rectA.vx = -rectA.vx
+                else:
+                    if rectA.vy > 0:
+                        rectA.y -= absPenY
+                        rectA.vy = -rectA.vy
+        elif isinstance(rectB, Hoop):
+            x = app.dLeft + rectB.x * app.dWidth + rectB.w * app.dWidth / 16
+            y = app.dTop + rectB.y * app.dHeight
+            w = rectB.w * app.dWidth - rectB.w * app.dWidth / 8
+            h = rectB.h * app.dHeight
+            
+            if rectContains(Rectangle(ax, ay, rectA.w, rectA.h), Rectangle(rectB.x + rectB.w / 16, rectB.y, rectB.w - rectB.w / 8, rectB.h)):
+                print('lebron games')
+
+        
+            
         
 class Cannon(BaseObject):
     def __init__(self, x, y):
@@ -149,7 +277,8 @@ class Cannon(BaseObject):
             cy,
             0.4 * app.dScale * app.jsonCfg['cannon']['scale'],
             rotateAngle = self.rotation,
-            fill = rgb(*self.fill)
+            fill = rgb(*self.fill),
+            border = 'black'
         )
 
 
@@ -188,8 +317,8 @@ class Cannon(BaseObject):
     def fireBall(self, x, y):
         self.updateAngle(x, y)
         tx, ty = unScaleCoords(*self.getEndBarrelCoords())
-        print(tx, ty)
-        c = BasketBall(tx, ty, app.jsonCfg['cannon']['barrelWidth'] / 12, app.jsonCfg['cannon']['barrelWidth'] / 12)
+        #print(tx, ty)
+        c = Basketball(tx, ty, app.jsonCfg['cannon']['barrelWidth'] / 12, app.jsonCfg['cannon']['barrelWidth'] / 12)
         c.vx = app.jsonCfg['cannon']['strength'] * math.cos(self.angle)
         c.vy = -app.jsonCfg['cannon']['strength'] * math.sin(self.angle)
         c.moveable = True

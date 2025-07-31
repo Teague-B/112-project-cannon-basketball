@@ -4,8 +4,8 @@
     "appAspectRatioHeight": 1,
     "appInitWindowWidth": 720,
     "appInitWindowHeight": 720,
-    "gravityForce": 4.5,
-    "stepsPerSecond": 60,
+    "gravityForce": 0,
+    "stepsPerSecond": 120,
     "cannon": {
         "barrelLength": 2,
         "barrelWidth": 0.5,
@@ -15,7 +15,8 @@
     },
     "basketball": {
         "fill": [232, 97, 0],
-        "scale": 1
+        "scale": 1,
+        "border": [0, 0, 0]
     },
     "sprites": {
         "basketball": "basketball2.png",

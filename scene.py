@@ -35,6 +35,22 @@ class Scene:
                     obj['x'],
                     obj['y']
                 ))
+            elif obj['type'] == "Hoop":
+                self.objectList.append(sceneObjects.Hoop(
+                    obj['x'],
+                    obj['y'],
+                    obj['w'],
+                    obj['h'],
+                    obj['nextScene']
+                ))
+            elif obj['type'] == "WindBox":
+                self.objectList.append(sceneObjects.WindBox(
+                    obj['x'],
+                    obj['y'],
+                    obj['w'],
+                    obj['h'],
+                    obj['direction']
+                ))
             else:
                 assert False, f"Unknown object type: {obj['type']}"
             
@@ -57,7 +73,7 @@ class Scene:
     def clearOffscreen(self):
         i = 0
         while i < len(self.objectList):
-            if self.objectList[i].y > 1.1 or self.objectList[i].x < -0.1 or self.objectList[i].x > 1.1:
+            if self.objectList[i].y > 1.1 or self.objectList[i].x < -0.1 or self.objectList[i].x > 1.1 or self.objectList[i].y < -0.1:
                 self.objectList.pop(i)
             else:
                 i += 1
@@ -71,7 +87,7 @@ class Scene:
 
     def doCollisions(self):
         for obj in self.objectList:
-            if not obj.isGhost and isinstance(obj, sceneObjects.Circle):
+            if not obj.isGhost and isinstance(obj, sceneObjects.Basketball):
                 for obj2 in self.objectList:
                     if obj != obj2 and obj.isGhost == False:
                         obj.doCollision(obj2)
