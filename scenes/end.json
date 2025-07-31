@@ -1,0 +1,16 @@
+{
+    "objectList": [
+        {
+            "type": "Label",
+            "x": 0.5,
+            "y": 0.25,
+            "text": "Congratulations! You finished!"
+        },
+        {
+            "type": "Label",
+            "x": 0.5,
+            "y": 0.3,
+            "text": "Press R to restart!"
+        }
+    ]
+}

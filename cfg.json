@@ -1,5 +1,5 @@
 {
-    "appInitScene": "three",
+    "appInitScene": "intro",
     "appAspectRatioWidth": 1,
     "appAspectRatioHeight": 1,
     "appInitWindowWidth": 720,

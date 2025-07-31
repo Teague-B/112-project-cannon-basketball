@@ -7,3 +7,9 @@ Thanks to https://media.istockphoto.com/id/1219629037/vector/illustration-of-bri
 How-To:
 -----------------
 Run main.py
+
+Notes
+-----------------
+This project was originally designed to be able to have a resizable window. However, this caused a lot of problems with making math very
+complicated. Because of the level of complication, I dropped support for that. However, there are still a lot of scaling variables and functions
+floating around because of the time it would take to convert everything back.

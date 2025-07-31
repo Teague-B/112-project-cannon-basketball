@@ -16,7 +16,6 @@ def unScaleCoords(x, y):
     return x / app.dWidth - app.dLeft, y / app.dHeight - app.dTop
 
 def pointIsIn(x, y, l, t, r, b):
-    #print(x, y, l, t, r, b)
     return (l < x < r) and (t < y < b)
 
 def rectContains(inner, outer):
@@ -47,6 +46,7 @@ class BaseObject:
     def updatePos(self):
         pass
 
+'''
 class Circle(BaseObject):
     def __init__(self, x, y, r):
         self.x = x
@@ -64,6 +64,7 @@ class Circle(BaseObject):
 
     def doCollision(self, other):
         pass
+'''
 
 class Rectangle(BaseObject):
     def __init__(self, x, y, w, h):
@@ -183,12 +184,13 @@ class Basketball(BaseObject):
             align = 'center',
             border = rgb(*tuple(app.jsonCfg['basketball']['border']))
         )
+        # Draw stripes
         drawLine(
             app.dLeft + self.x * app.dWidth,
             app.dTop + self.y * app.dHeight - self.w * app.dScale / 2,
             app.dLeft + self.x * app.dWidth,
             app.dTop + self.y * app.dHeight + self.w * app.dScale / 2,
-            fill = 'black',
+            fill = rgb(*tuple(app.jsonCfg['basketball']['border'])),
             lineWidth = 2
         )
         drawLine(
@@ -196,7 +198,7 @@ class Basketball(BaseObject):
             app.dTop + self.y * app.dHeight,
             app.dLeft + self.x * app.dWidth + self.w * app.dScale / 2,
             app.dTop + self.y * app.dHeight,
-            fill = 'black',
+            fill = rgb(*tuple(app.jsonCfg['basketball']['border'])),
             lineWidth = 2
         )
         drawLine(
@@ -204,7 +206,7 @@ class Basketball(BaseObject):
             app.dTop + self.y * app.dHeight - self.w * app.dScale / 4,
             app.dLeft + self.x * app.dWidth + self.w * app.dScale / 2,
             app.dTop + self.y * app.dHeight + self.w * app.dScale / 4,
-            fill = 'black',
+            fill = rgb(*tuple(app.jsonCfg['basketball']['border'])),
             lineWidth = 2
         )
         drawLine(
@@ -212,7 +214,7 @@ class Basketball(BaseObject):
             app.dTop + self.y * app.dHeight + self.w * app.dScale / 4,
             app.dLeft + self.x * app.dWidth + self.w * app.dScale / 2,
             app.dTop + self.y * app.dHeight - self.w * app.dScale / 4,
-            fill = 'black',
+            fill = rgb(*tuple(app.jsonCfg['basketball']['border'])),
             lineWidth = 2
         )
 
@@ -254,11 +256,11 @@ class Basketball(BaseObject):
 
 
                 if abs(absPenX) < abs(absPenY):
-                    print("x", rectA, rectB)
+                    #print("x", rectA, rectB)
                     rectA.x -= absPenX
                     rectA.vx = -rectA.vx
                 else:
-                    print("y", rectA, rectB)
+                    #print("y", rectA, rectB)
                     if rectA.vy > 0:
                         rectA.y -= absPenY
                         rectA.vy = -rectA.vy

@@ -32,7 +32,12 @@ def updateDrawVars(app):
 
     app.dScale = scale
 
+def onKeyPress(app, key):
+    if key == 'r' and app.curScene.id == 'end':
+        app.curScene = scene.Scene(app.jsonCfg['appInitScene'])
+
 def onStep(app):
+    print(app.curScene.id)
     updateDrawVars(app)
 
     #print(len(app.curScene.objectList))
