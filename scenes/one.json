@@ -44,7 +44,7 @@
             "y": 0.45,
             "h": 0.1,
             "w": 0.1,
-            "nextScene": "intro"
+            "nextScene": "three"
         }
     ]
 }

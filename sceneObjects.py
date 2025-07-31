@@ -109,6 +109,33 @@ class WindBox(BaseObject):
                 fill = rgb(255, 255, 255),
                 arrowEnd=True
             )
+        elif self.direction == "left":
+            drawLine(
+                self.x * app.dWidth + self.w * app.dWidth - self.w * app.dHeight / 8,
+                self.y * app.dHeight + self.h * app.dHeight / 2,
+                self.x * app.dWidth + self.w * app.dHeight / 8,
+                self.y * app.dHeight + self.h * app.dHeight / 2,
+                fill = rgb(255, 255, 255),
+                arrowEnd=True
+            )
+        elif self.direction == "down":
+            drawLine(
+                self.x * app.dWidth + self.w * app.dWidth / 2,
+                self.y * app.dHeight + self.h * app.dHeight - self.h * app.dHeight / 8,
+                self.x * app.dWidth + self.w * app.dWidth / 2,
+                self.y * app.dHeight + self.h * app.dHeight / 8,
+                fill = rgb(255, 255, 255),
+                arrowStart=True
+            )
+        elif self.direction == "right":
+            drawLine(
+                self.x * app.dWidth + self.w * app.dWidth - self.w * app.dHeight / 8,
+                self.y * app.dHeight + self.h * app.dHeight / 2,
+                self.x * app.dWidth + self.w * app.dHeight / 8,
+                self.y * app.dHeight + self.h * app.dHeight / 2,
+                fill = rgb(255, 255, 255),
+                arrowStart=True
+            )
 
 class Hoop(BaseObject):
     def __init__(self, x, y, w, h, ns):
@@ -206,6 +233,12 @@ class Basketball(BaseObject):
             if pointIsIn(rectA.x, rectA.y, rectB.x, rectB.y, rectB.x + rectB.w, rectB.y + rectB.h):
                 if rectB.direction == "up":
                     rectA.vy = abs(rectA.vy)
+                elif rectB.direction == "down":
+                    rectA.vy = -abs(rectA.vy)
+                elif rectB.direction == "left":
+                    rectA.vx = -abs(rectA.vx)
+                elif rectB.direction == "right":
+                    rectA.vx = abs(rectA.vx)
         
         if isinstance(rectB, Basketball) or isinstance(rectB, Rectangle):
             if pointIsIn(ax, ay, bx, by, br, bb) or pointIsIn(ar, ay, bx, by, br, bb) or pointIsIn(ax, ab, bx, by, br, bb) or pointIsIn(ar, ab, bx, by, br, bb):
